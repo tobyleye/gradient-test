@@ -1,35 +1,43 @@
 import { useState } from "react";
-import { View, Text, StyleSheet,Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import Button from "../../components/Button";
 import { formatAmount } from "../../utils";
 import client from "../../client";
 
-
-export default function PaymentForm({ paymentRequest, onCancel, onPaymentComplete }) {
+export default function PaymentForm({
+  paymentRequest,
+  onCancel,
+  onPaymentComplete,
+}) {
   const [loading, setLoading] = useState(false);
 
   const handlePay = async () => {
-      try {
-        setLoading(true);
-        client
-          .post("/payments", { paymentRequestId: paymentRequest._id })
-          .then(() => {
-            setLoading(false);
-            Alert.alert("Paid!", "", [
-              {
-                text: "OK",
-                onPress: onPaymentComplete
-              },
-            ]);
-          })
-          .catch((err) => {
-            setLoading(false);
-            console.log("error paying", err);
-          });
-      } catch(err) {
-          console.log('error',err);
-      }
-   
+    try {
+      setLoading(true);
+      client
+        .post("/payments", { paymentRequestId: paymentRequest._id })
+        .then(() => {
+          setLoading(false);
+          Alert.alert("Paid!", "", [
+            {
+              text: "OK",
+              onPress: onPaymentComplete,
+            },
+          ]);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("error paying", err);
+        });
+    } catch (err) {
+      console.log("error", err);
+    }
   };
 
   return (
@@ -49,7 +57,9 @@ export default function PaymentForm({ paymentRequest, onCancel, onPaymentComplet
             <Button text="pay" loading={loading} onPress={handlePay} />
           </View>
           <View style={{ flex: 1 }}>
-            <Button text="cancel" disabled={loading} onPress={onCancel} />
+            <TouchableOpacity  disabled={loading} onPress={onCancel}>
+              <Text style={[styles.cancelBtnText, styles.textCenter]}>Cancel</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -59,17 +69,16 @@ export default function PaymentForm({ paymentRequest, onCancel, onPaymentComplet
 
 const styles = StyleSheet.create({
   container: {
-   
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    top:0,
+    top: 0,
     zIndex: 2,
-    justifyContent:'flex-end',
-    backgroundColor: 'rgba(255,255,255,.5)'
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(255,255,255,.5)",
   },
-  formContainer:{
+  formContainer: {
     backgroundColor: "white",
     padding: 20,
     borderTopRightRadius: 10,
@@ -79,7 +88,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgba(255,255,255,.5)",
     borderWidth: 4,
-    borderColor:'yellow',
+    borderColor: "yellow",
     top: 0,
     left: 0,
     bottom: 0,
@@ -89,6 +98,7 @@ const styles = StyleSheet.create({
   btnsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems:'center'
   },
   amount: {
     fontSize: 30,
@@ -111,4 +121,7 @@ const styles = StyleSheet.create({
     color: "#999",
     marginBottom: 20,
   },
+  cancelBtnText:{
+      fontWeight: "800"
+  }
 });

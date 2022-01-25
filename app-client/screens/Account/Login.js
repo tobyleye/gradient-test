@@ -14,6 +14,10 @@ export default function LoginForm() {
   let { dispatch } = useAuth();
 
   async function handleSubmit() {
+    if (!email && !password) {
+      Alert.alert('Error', "email & password are required!");
+      return;
+    }
     try {
       setLoading(true);
       const { data } = await client.post("/login", {
@@ -30,7 +34,7 @@ export default function LoginForm() {
       });
     } catch (err) {
       setLoading(false);
-      Alert.alert("invalid login details");
+      Alert.alert("Oops!", "There was a problem loggin in, check your email and password");
     }
   }
 

@@ -14,6 +14,10 @@ export default function SignupForm() {
   let { dispatch } = useAuth();
 
   async function handleSubmit() {
+    if (!email && !password) {
+      Alert.alert('Error', "email & password are required!");
+      return;
+    }
     try {
       setLoading(true);
       const { data } = await client.post("/signup", {
@@ -30,7 +34,7 @@ export default function SignupForm() {
       });
     } catch (err) {
       setLoading(false);
-      Alert.alert("error signing up");
+      Alert.alert("Oops!", "There was a problem creating your account");
     }
   }
 
