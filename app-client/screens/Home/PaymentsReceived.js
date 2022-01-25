@@ -8,6 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import client from "../../client";
+import { dateToHuman, formatAmount } from "../../utils";
 
 export default function PaymentsReceived({}) {
   const [loading, setLoading] = useState(false);
@@ -19,13 +20,11 @@ export default function PaymentsReceived({}) {
     try {
       setLoading(true);
       const resp = await client.get("/payments");
-      const {paymentList, totalAmountReceived} = resp.data.data;
+      const { paymentList, totalAmountReceived } = resp.data.data;
       setLoading(false);
       setPayments(paymentList);
-      setTotalAmountReceived(totalAmountReceived)
+      setTotalAmountReceived(totalAmountReceived);
     } catch (err) {
-      // error
-      console.log("errror:", err);
       setLoading(false);
     }
   };
@@ -34,10 +33,16 @@ export default function PaymentsReceived({}) {
     fetchPayments();
   }, []);
 
-  const renderItem = ({ item: { amount } }) => {
+  const renderItem = ({ item: { amount, createdAt, createdBy } }) => {
     return (
-      <View>
-        <Text>{amount}</Text>
+      <View style={styles.paymentItem}>
+        <View>
+          <Text style={styles.paymentItemAmount}>{formatAmount(amount)}</Text>
+          <Text style={styles.paymentItemPaidBy}>
+            Paid by {createdBy.email}
+          </Text>
+        </View>
+        <Text style={styles.paymentItemDate}>{dateToHuman(createdAt)}</Text>
       </View>
     );
   };
@@ -51,13 +56,15 @@ export default function PaymentsReceived({}) {
             <ActivityIndicator animating={loading} size="small" color="green" />
           ) : (
             <TouchableOpacity onPress={fetchPayments}>
-              <Text>Refresh</Text>
+              <Text style={styles.refreshBtnText}>Refresh</Text>
             </TouchableOpacity>
           )}
         </View>
       </View>
 
-      <Text style={styles.total}>Total: {totalAmountReceived}</Text>
+      <Text style={styles.total}>
+        Total: {formatAmount(totalAmountReceived)}
+      </Text>
 
       <FlatList
         data={payments}
@@ -95,5 +102,26 @@ const styles = StyleSheet.create({
 
   refreshBtnText: {
     fontSize: 12,
+  },
+
+  paymentItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor:'green'
+  },
+  paymentItemAmount: {
+    fontSize: 18,
+  },
+  paymentItemDate: {
+    color: "#888",
+    fontSize: 14,
+  },
+  paymentItemPaidBy: {
+    fontSize: 12,
+    color: "#888",
   },
 });

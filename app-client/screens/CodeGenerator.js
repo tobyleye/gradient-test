@@ -24,7 +24,7 @@ export default function QRCodeGenerator({ navigation }) {
       })
       .then((resp) => {
         const { _id: id, amount, purpose } = resp.data.data;
-        navigation.replace("qrcode", { id, amount, purpose });
+        navigation.replace("CodeViewer", { id, amount, purpose });
       })
       .catch(() => {
         setLoading(false);

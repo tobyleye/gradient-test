@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Share } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import { formatAmount } from "../utils";
 // import Share from "react-native-share"
 // import * as Sharing from 'expo-sharing';
 
@@ -37,7 +38,7 @@ export default function ({ route }) {
   return (
     <View style={styles.container}>
       <View style={styles.detailsContainer}>
-        <Text style={styles.amount}>{amount}</Text>
+        <Text style={styles.amount}>{formatAmount(amount)}</Text>
         <Text style={styles.purpose}>{purpose}</Text>
       </View>
       <View style={styles.codeContainer}>

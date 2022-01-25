@@ -12,10 +12,18 @@ let initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "authenticate":
+      let { user, token } = action.payload;
+
+      if (!user && !token) {
+        return state;
+      }
+      // set client token
+      client.setToken(token);
+
       return {
         ...state,
-        user: action.payload.user,
-        token: action.payload.token,
+        user,
+        token,
         isAuthenticated: true,
       };
     case "logout":
@@ -35,13 +43,6 @@ export const AuthContextProvider = (props) => {
     }),
     [state, dispatch]
   );
-
-  useEffect(() => {
-    let { isAuthenticated, token } = state;
-    if (isAuthenticated) {
-      client.setToken(token);
-    }
-  }, [state]);
 
   return <AuthContext.Provider {...props} value={contextValue} />;
 };

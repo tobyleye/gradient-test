@@ -33,13 +33,14 @@ exports.create = async (req, res) => {
     $inc: { amountReceived: request.amount },
   });
 
-  return res.status(200).send("success!");
+  return res.status(200).end();
 };
 
 // list payments made to authenticated user
 exports.list = async (req, res) => {
-  console.log({ recipient: req.userId });
-  let paymentList = await Payment.find({ recipient: req.userId });
+  let paymentList = await Payment.find({ recipient: req.userId }).populate(
+    "createdBy"
+  ).sort('-createdAt')
   let { amountReceived } = await User.findById(req.userId);
 
   let data = {

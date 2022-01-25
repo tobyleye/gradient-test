@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/Home";
 import QrCodeScanner from "./screens/CodeScanner";
 import CodeGenerator from "./screens/CodeGenerator";
-import qrcode from "./screens/qrcode";
+import CodeViewer from "./screens/CodeViewer";
 import Account from "./screens/Account";
 import { AuthContextProvider, useAuth } from "./context/Auth";
 
@@ -20,11 +20,11 @@ function Index() {
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="CodeScanner" component={QrCodeScanner} />
             <Stack.Screen name="CodeGenerator" component={CodeGenerator} />
-            <Stack.Screen name="qrcode" component={qrcode} />
+            <Stack.Screen name="CodeViewer" component={CodeViewer} />
           </>
         ) : (
           <>
-            <Stack.Screen name="account" component={Account} />
+            <Stack.Screen name="Account" component={Account} />
           </>
         )}
       </Stack.Navigator>
