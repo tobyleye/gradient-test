@@ -26,9 +26,10 @@ export default function QrCodeScanner({ navigation }) {
       let data = resp.data.data;
 
       if (data.status === "paid") {
-        Alert.alert("request has been paid.", "");
+        Alert.alert("Request has been paid.");
         return;
       }
+      
       setResolvedCode(data);
     } catch (err) {
       setLoading(false);

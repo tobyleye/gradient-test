@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  View, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import client from "../../client";
 import { useAuth } from "../../context/Auth";
 import Button from "../../components/Button";
@@ -7,8 +7,8 @@ import styles from "./styles";
 import { TextInput, EmailInput } from "../../components/TextInput";
 
 export default function LoginForm() {
-  let [email, setEmail] = useState("johndoe@gmail.com");
-  let [password, setPassword] = useState("johndoe");
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
   let [loading, setLoading] = useState(false);
 
   let { dispatch } = useAuth();
@@ -36,12 +36,18 @@ export default function LoginForm() {
 
   return (
     <View style={styles.formContainer}>
-      <EmailInput label="Email" value={email} onChangeText={setEmail} />
+      <EmailInput
+        label="Email"
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+      />
       <TextInput
         label="Password"
         value={password}
         secureTextEntry={true}
         onChangeText={setPassword}
+        placeholder="Password"
       />
       <Button text="Login" loading={loading} onPress={handleSubmit} />
     </View>

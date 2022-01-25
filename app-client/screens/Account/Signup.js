@@ -7,8 +7,8 @@ import Button from "../../components/Button";
 import { EmailInput, TextInput } from "../../components/TextInput";
 
 export default function SignupForm() {
-  let [email, setEmail] = useState("johndoe@gmail.com");
-  let [password, setPassword] = useState("johndoe");
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
   let [loading, setLoading] = useState(false);
 
   let { dispatch } = useAuth();
@@ -36,13 +36,19 @@ export default function SignupForm() {
 
   return (
     <View style={styles.formContainer}>
-      <EmailInput label="Email" value={email} onChangeText={setEmail} />
+      <EmailInput
+        label="Email"
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+      />
 
       <TextInput
         label="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry={true}
+        placeholder="Password"
       />
 
       <Button text="Signup" loading={loading} onPress={handleSubmit} />
