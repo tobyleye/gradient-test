@@ -1,40 +1,29 @@
 import { useRef } from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Share } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import Button from "../components/Button";
 import { formatAmount } from "../utils";
-// import Share from "react-native-share"
-// import * as Sharing from 'expo-sharing';
+
 
 export default function ({ route }) {
   let { id, amount, purpose } = route.params;
   const qrCodeRef = useRef(null);
 
   function handleShare() {
-    console.log("code ref:", qrCodeRef);
-    qrCodeRef.current.toDataURL((dataURL) => {
-      console.log("qrcode url", dataURL);
-      let content = {
-        title: "React Native",
-        url: `data:image/png;base64,${dataURL}`,
-        message: `data:image/png;base64,${dataURL}`,
-      };
-      Share.open(content).catch((err) => {
-        console.log("error sharing:", err);
-      });
-    });
+    // Todo: 
+    console.log('share!')
+    // qrCodeRef.current.toDataURL((dataURL) => {
+    //   console.log("qrcode url", dataURL);
+    //   let content = {
+    //     title: "React Native",
+    //     url: `data:image/png;base64,${dataURL}`,
+    //     message: `data:image/png;base64,${dataURL}`,
+    //   };
+    //   Share.open(content).catch((err) => {
+    //     console.log("error sharing:", err);
+    //   });
+    // });
   }
 
-  //   function expoShare(){
-  //     qrCodeRef.current.toDataURL((dataURL) => {
-  //        Sharing.shareAsync(`data:image/png;base64,${dataURL}`, {
-  //            mimeType:'image/png'
-  //        })
-  //         .catch(err => {
-  //             console.log('errorsharing', err)
-  //         })
-  //       });
-  //   }
 
   return (
     <View style={styles.container}>
