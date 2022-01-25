@@ -10,7 +10,7 @@ import {
 import { useState, useEffect } from "react";
 import client from "../client";
 
-export default function QrCodeScanner() {
+export default function QrCodeScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [resolvedCode, setResolvedCode] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -22,40 +22,44 @@ export default function QrCodeScanner() {
     })();
   }, []);
 
-  function handleBarCodeScanned(data) {
+  async function handleBarCodeScanned(data) {
     // send data to server to verify code
     setLoading(true);
-    client
-      .get(`/payment-requests/${data.data}`)
-      .then((resp) => {
-        setLoading(false);
-        let data = resp.data.data;
-        console.log("data -->", data);
-        if (data.status === "paid") {
-          Alert.alert("request has been paid.");
-          return;
-        }
-        setResolvedCode(data);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("error-->", err);
-        Alert.alert("Invalid qr code");
-      });
+    let paymentRequestId = data.data;
+    try {
+      let resp = await client.get(`/payment-requests/${paymentRequestId}`);
+      setLoading(false);
+      let data = resp.data.data;
+      if (data.status === "paid") {
+        Alert.alert("request has been paid.", "");
+        return;
+      }
+      setResolvedCode(data);
+    } catch (err) {
+      setLoading(false);
+      console.log("error-->", err);
+      Alert.alert("Invalid qr code");
+    }
   }
 
   const handlePay = async () => {
+    console.log('trying to pay..')
     client
-      .post("/payments", {paymentRequestId: resolvedCode._id})
+      .post("/payments", { paymentRequestId: resolvedCode._id })
       .then(() => {
-        setResolvedCode(null)
-        Alert.alert("Paid!");
-        navigation.navigate("home");
+        setResolvedCode(null);
+        Alert.alert("Paid!", "", [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("Home"),
+          },
+        ]);
       })
       .catch((err) => {
-        console.log('error paying', err)
+        console.log("error paying", err);
       });
   };
+
   const handleCancel = () => {
     setResolvedCode(null);
   };
@@ -65,7 +69,6 @@ export default function QrCodeScanner() {
       <View style={styles.container}>
         <Camera
           style={styles.camera}
-          key={resolvedCode}
           type={Camera.Constants.Type.back}
           onBarCodeScanned={handleBarCodeScanned}
         ></Camera>

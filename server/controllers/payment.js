@@ -14,38 +14,41 @@ exports.create = async (req, res) => {
     return res.status(400).send("payment request is not pending");
   }
 
-  const session = await mongoose.startSession();
-  session.withTransaction(async () => {
-    //  store payment
-    await new Payment(
-      {
-        amount: request.amount,
-        paymentRequestId,
-        recipient: request.user,
-        createdBy: req.userId,
-      },
-      { session }
-    ).save();
-
-    // update request status to paid
-    await request.update({
-      status: "paid",
-    });
-
-    // increment user balance 
-   await User.findByIdAndUpdate(request.createdBy, { $inc: { balance: request.amount}})
+  //  store payment
+  let payment = new Payment({
+    amount: request.amount,
+    paymentRequestId,
+    recipient: request.createdBy,
+    createdBy: req.userId,
   });
 
-  session.endSession();
+  await payment.save();
+
+  // update request status
+  request.status = "paid";
+  await request.save();
+
+  // increment user balance
+  await User.findByIdAndUpdate(request.createdBy, {
+    $inc: { amountReceived: request.amount },
+  });
+
   return res.status(200).send("success!");
 };
 
 // list payments made to authenticated user
 exports.list = async (req, res) => {
-  let recentPayments = await Payment.find({ recipient: req.userId });
-  return res.json({ message: "recent payments", data: recentPayments });
-};
+  console.log({ recipient: req.userId });
+  let paymentList = await Payment.find({ recipient: req.userId });
+  let { amountReceived } = await User.findById(req.userId);
 
+  let data = {
+    totalAmountReceived: amountReceived,
+    paymentList,
+  };
+
+  return res.json({ data });
+};
 
 // handles payment request
 exports.request = async (req, res) => {
@@ -53,22 +56,21 @@ exports.request = async (req, res) => {
   if (!amount) {
     return res.status(400).end();
   }
-  amount= Number(amount)
+  amount = Number(amount);
   const paymentRequest = await new PaymentRequest({
     amount,
     purpose,
     createdBy: req.userId,
   }).save();
 
-  res.json({data: paymentRequest });
+  res.json({ data: paymentRequest });
 };
 
-exports.getPaymentRequest = async (req, res) =>{
-  let id =req.params.id;
-  let paymentRequest =await PaymentRequest.findById(id)
-  if(!paymentRequest){
-    return res.status(404).end()
+exports.getPaymentRequest = async (req, res) => {
+  let id = req.params.id;
+  let paymentRequest = await PaymentRequest.findById(id);
+  if (!paymentRequest) {
+    return res.status(404).end();
   }
-  return res.json({ data: paymentRequest})
-}
-
+  return res.json({ data: paymentRequest });
+};

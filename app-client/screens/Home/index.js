@@ -1,22 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useState } from "react";
 import HomeButton from "./HomeButton";
-import RecentTransactions from "../../components/RecentTransactions";
+import PaymentsReceived from "./PaymentsReceived";
 import { useAuth } from "../../context/Auth";
 
-export default function Home({navigation}) {
-  const [openQrCodeScanner, setOpenQrCodeScanner] = useState(false);
+export default function Home({ navigation }) {
+  const { dispatch, state } = useAuth();
 
-  const {dispatch,state} =useAuth()
-
-  function handleBarCodeScanned(data) {
-    console.log("bar code scanned with data", data);
-    setOpenQrCodeScanner(false);
-  }
-
-  function handleLogout(){
-    console.log('logout activated!')
-    dispatch({ type: 'logout'})
+  function handleLogout() {
+    dispatch({ type: "logout" });
   }
 
   return (
@@ -24,28 +15,29 @@ export default function Home({navigation}) {
       <View style={styles.header}>
         <View style={styles.greetings}>
           <Text style={[styles.textWhite]}>Hello, </Text>
-          <Text style={[styles.textWhite, styles.boldText]}>{state.user.email}</Text>
+          <Text style={[styles.textWhite, styles.boldText]}>
+            {state.user.email}
+          </Text>
         </View>
         <TouchableOpacity onPress={handleLogout}>
           <Text style={[styles.textWhite]}>Logout</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.btnGroup}>
+      <View style={styles.btnsContainer}>
         <HomeButton
           primaryText="Accept Quick Payment"
           secondaryText="Generate Qr Code"
-          onPress={() => navigation.navigate('CodeGenerator')}
+          onPress={() => navigation.navigate("CodeGenerator")}
         />
         <HomeButton
           primaryText="Make Payment"
           secondaryText="Scan Qr Code"
-          onPress={() => navigation.navigate('CodeScanner')}
-        /> 
+          onPress={() => navigation.navigate("CodeScanner")}
+        />
       </View>
-      
 
-      <RecentTransactions />
+      <PaymentsReceived />
     </View>
   );
 }
@@ -73,23 +65,7 @@ const styles = StyleSheet.create({
   boldText: {
     fontWeight: "800",
   },
-  btnGroup: {
+  btnsContainer: {
     marginBottom: 50,
-  },
-  scanBtn: {
-    backgroundColor: "white",
-    borderColor: "black",
-    borderWidth: 2,
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    width: 80,
-    height: 80,
-    borderRadius: 100,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  camera: {
-    height: 500,
   },
 });

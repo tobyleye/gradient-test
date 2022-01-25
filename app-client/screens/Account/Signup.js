@@ -29,7 +29,6 @@ export default function SignupForm() {
         },
       });
     } catch (err) {
-      console.log("signup error err", err);
       setLoading(false);
       Alert.alert("error signing up");
     }

@@ -5,7 +5,6 @@ const client = axios.create({
 });
 
 client.setToken = function (token) {
-    console.log('setting token', token)
   if (token) {
     this.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
