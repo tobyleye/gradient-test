@@ -38,9 +38,9 @@ exports.create = async (req, res) => {
 
 // list payments made to authenticated user
 exports.list = async (req, res) => {
-  let paymentList = await Payment.find({ recipient: req.userId }).populate(
-    "createdBy"
-  ).sort('-createdAt')
+  let paymentList = await Payment.find({ recipient: req.userId })
+    .populate("createdBy")
+    .sort("-createdAt");
   let { amountReceived } = await User.findById(req.userId);
 
   let data = {
@@ -69,7 +69,7 @@ exports.request = async (req, res) => {
 
 exports.getPaymentRequest = async (req, res) => {
   let id = req.params.id;
-  let paymentRequest = await PaymentRequest.findById(id);
+  let paymentRequest = await PaymentRequest.findById(id).populate("createdBy");
   if (!paymentRequest) {
     return res.status(404).end();
   }

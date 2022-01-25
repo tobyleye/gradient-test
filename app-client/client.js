@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: "https://gradient-test.herokuapp.com/api/v1",
+  baseURL: __DEV__
+    ? "http://192.168.0.119:3000/api/v1"
+    : "https://gradient-test.herokuapp.com/api/v1",
 });
 
 client.setToken = function (token) {

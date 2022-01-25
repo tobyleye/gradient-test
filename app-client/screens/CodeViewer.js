@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Share } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import Button from "../components/Button";
 import { formatAmount } from "../utils";
 // import Share from "react-native-share"
 // import * as Sharing from 'expo-sharing';
@@ -53,6 +54,7 @@ export default function ({ route }) {
             backgroundColor="white"
           />
         </View>
+
         <TouchableOpacity style={styles.shareBtn} onPress={handleShare}>
           <Text style={styles.shareBtnText}>Share</Text>
         </TouchableOpacity>

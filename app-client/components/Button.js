@@ -11,12 +11,13 @@ export default function Button({
   onPress = () => {},
   style = {},
   large = false,
+  disabled=false
 }) {
   return (
     <TouchableOpacity
       style={[styles.btn, large && styles.btnLarge, style]}
       onPress={onPress}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {loading ? (
         <ActivityIndicator animating={loading} color="white" size="small" />
