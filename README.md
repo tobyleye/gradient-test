@@ -4,7 +4,7 @@
 ![Screenshot 2](https://github.com/tobyleye/gradient-test/blob/main/assets/02.jpg)
 ![Screenshot 3](https://github.com/tobyleye/gradient-test/blob/main/assets/03.jpg)
 ![Screenshot 4](https://github.com/tobyleye/gradient-test/blob/main/assets/04.jpg)
-![Screenshot 5](https://github.com/tobyleye/gradient-test/blob/main/assets/05.png)
+![Screenshot 5](https://github.com/tobyleye/gradient-test/blob/main/assets/05.jpg)
 
 App is live on https://expo.dev/@tobyleye/app-client
 
