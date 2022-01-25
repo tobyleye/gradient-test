@@ -11,7 +11,22 @@ export default function QRCodeGenerator({ navigation }) {
 
   async function handleCreateQrCode() {
     if (!amount) {
-      Alert.alert("Amount field is required");
+      Alert.alert("Error", "Amount field is required");
+      return;
+    }
+
+    let cleanAmount = Number(amount);
+
+    if (Number.isNaN(cleanAmount)) {
+      Alert.alert(
+        "Error",
+        "amount entered is invalid, check for spaces or non numeric character."
+      );
+      return;
+    }
+
+    if (cleanAmount < 0) {
+      Alert.alert("Error", "amount cannot be lower than 0");
       return;
     }
 
@@ -19,7 +34,7 @@ export default function QRCodeGenerator({ navigation }) {
 
     client
       .post("/payment-requests", {
-        amount,
+        amount: cleanAmount,
         purpose,
       })
       .then((resp) => {
