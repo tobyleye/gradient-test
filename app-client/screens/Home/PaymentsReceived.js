@@ -10,7 +10,7 @@ import {
 import client from "../../client";
 import { dateToHuman, formatAmount } from "../../utils";
 
-export default function PaymentsReceived({}) {
+export default function PaymentsReceived() {
   const [loading, setLoading] = useState(false);
 
   const [payments, setPayments] = useState([]);
