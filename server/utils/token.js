@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-let secretKey = "app____secret";
+let secretKey = process.env.JWT_SECRET_KEY
 
 module.exports = {
   create(payload) {
