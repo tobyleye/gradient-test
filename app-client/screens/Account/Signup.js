@@ -4,7 +4,10 @@ import client from "../../client";
 import { useAuth } from "../../context/Auth";
 import styles from "./styles";
 import Button from "../../components/Button";
-import { EmailInput, TextInput } from "../../components/TextInput";
+import {
+  EmailInput,
+  PasswordInput,
+} from "../../components/TextInput";
 
 export default function SignupForm() {
   let [email, setEmail] = useState("");
@@ -47,11 +50,10 @@ export default function SignupForm() {
         placeholder="Email"
       />
 
-      <TextInput
+      <PasswordInput
         label="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry={true}
         placeholder="Password"
       />
 

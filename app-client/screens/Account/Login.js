@@ -4,18 +4,21 @@ import client from "../../client";
 import { useAuth } from "../../context/Auth";
 import Button from "../../components/Button";
 import styles from "./styles";
-import { TextInput, EmailInput } from "../../components/TextInput";
+import {
+  EmailInput,
+  PasswordInput,
+} from "../../components/TextInput";
 
 export default function LoginForm() {
-  let [email, setEmail] = useState(__DEV__?"johndoe@gmail.com":'');
-  let [password, setPassword] = useState(__DEV__?"johndoe":'');
+  let [email, setEmail] = useState(__DEV__ ? "johndoe@gmail.com" : "");
+  let [password, setPassword] = useState(__DEV__ ? "johndoe" : "");
   let [loading, setLoading] = useState(false);
 
   let { dispatch } = useAuth();
 
   async function handleSubmit() {
     if (!email || !password) {
-      Alert.alert('Oops!', "email & password are required!");
+      Alert.alert("Oops!", "email & password are required!");
       return;
     }
     try {
@@ -34,7 +37,10 @@ export default function LoginForm() {
       });
     } catch (err) {
       setLoading(false);
-      Alert.alert("Oops!", "There was a problem loggin in, check your email and password");
+      Alert.alert(
+        "Oops!",
+        "There was a problem loggin in, check your email and password"
+      );
     }
   }
 
@@ -46,10 +52,9 @@ export default function LoginForm() {
         onChangeText={setEmail}
         placeholder="Email"
       />
-      <TextInput
+      <PasswordInput
         label="Password"
         value={password}
-        secureTextEntry={true}
         onChangeText={setPassword}
         placeholder="Password"
       />
