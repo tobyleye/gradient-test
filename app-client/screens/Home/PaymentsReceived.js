@@ -15,7 +15,7 @@ export default function PaymentsReceived() {
   const [loading, setLoading] = useState(false);
 
   const [payments, setPayments] = useState([]);
-  const [totalAmountReceived, setTotalAmountReceived] = useState(null);
+  const [totalAmountReceived, setTotalAmountReceived] = useState(0);
 
   let fetchPayments = async () => {
     try {
