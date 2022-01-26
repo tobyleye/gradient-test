@@ -9,14 +9,23 @@ export default function ({ route }) {
   let { id, amount, purpose } = route.params;
   const qrCodeRef = useRef(null);
   const codeContainerRef = useRef(null);
+  
+  const qrCodeImage = useRef(null)
 
-  async function handleShare() {
-    try {
-      let image = await captureRef(codeContainerRef.current, {
+  let captureQrCode = async () => {
+    if (qrCodeImage.current === null) {
+      qrCodeImage.current =  await captureRef(codeContainerRef.current, {
         result: "tmpfile",
         format: "png",
         quality: 1,
       });
+    }
+    return qrCodeImage.current; 
+  }
+
+  async function handleShare() {
+    try {
+      let image = await captureQrCode()
       await Sharing.shareAsync(image);
     } catch (err) {
       console.log("error sharing:", err);
