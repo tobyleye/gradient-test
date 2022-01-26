@@ -3,6 +3,7 @@ import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { useState, useEffect } from "react";
 import PaymentForm  from "./PaymentForm";
 import client from "../../client";
+import { colors } from "../../theme";
 
 export default function QrCodeScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -55,7 +56,7 @@ export default function QrCodeScanner({ navigation }) {
         ></Camera>
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator animating={loading} color="green" size="large" />
+            <ActivityIndicator animating={loading} color={colors.green.light} size="large" />
           </View>
         )}
         {resolvedCode && (

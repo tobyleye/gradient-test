@@ -8,6 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import client from "../../client";
+import { colors } from "../../theme";
 import { dateToHuman, formatAmount } from "../../utils";
 
 export default function PaymentsReceived() {
@@ -53,7 +54,11 @@ export default function PaymentsReceived() {
         <Text style={styles.title}>Payments Received</Text>
         <View>
           {loading ? (
-            <ActivityIndicator animating={loading} size="small" color="green" />
+            <ActivityIndicator
+              animating={loading}
+              size="small"
+              color={colors.green.light}
+            />
           ) : (
             <TouchableOpacity onPress={fetchPayments}>
               <Text style={styles.refreshBtnText}>Refresh</Text>
@@ -79,10 +84,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 16,
     flex: 1,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    borderTopRightRadius: 14,
+    borderTopLeftRadius: 14,
   },
   header: {
     flexDirection: "row",
@@ -111,14 +116,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor:'green'
+    borderBottomColor: colors.green.light,
   },
   paymentItemAmount: {
     fontSize: 18,
   },
   paymentItemDate: {
     color: "#888",
-    fontSize: 14,
+    fontSize: 12,
   },
   paymentItemPaidBy: {
     fontSize: 12,

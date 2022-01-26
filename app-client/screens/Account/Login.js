@@ -7,15 +7,15 @@ import styles from "./styles";
 import { TextInput, EmailInput } from "../../components/TextInput";
 
 export default function LoginForm() {
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  let [email, setEmail] = useState(__DEV__?"johndoe@gmail.com":'');
+  let [password, setPassword] = useState(__DEV__?"johndoe":'');
   let [loading, setLoading] = useState(false);
 
   let { dispatch } = useAuth();
 
   async function handleSubmit() {
-    if (!email && !password) {
-      Alert.alert('Error', "email & password are required!");
+    if (!email || !password) {
+      Alert.alert('Oops!', "email & password are required!");
       return;
     }
     try {

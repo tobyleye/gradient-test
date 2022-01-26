@@ -4,9 +4,8 @@ import LoginForm from "./Login";
 import SignupForm from "./Signup";
 import styles from "./styles";
 
-
 export default function ({ navigation }) {
-  let [visibleForm, setVisibleForm] = useState("login");
+  let [visibleForm, setVisibleForm] = useState("Login");
 
   useEffect(() => {
     navigation.setOptions({
@@ -14,16 +13,12 @@ export default function ({ navigation }) {
     });
   }, [visibleForm]);
 
-  function signup() {
-    navigation.replace("signup");
-  }
-
   function renderForm() {
     switch (visibleForm) {
-      case "login":
-        return <LoginForm setVisibleForm={setVisibleForm} />;
-      case "signup":
-        return <SignupForm setVisibleForm={setVisibleForm} onSubmit={signup} />;
+      case "Login":
+        return <LoginForm />;
+      case "Signup":
+        return <SignupForm />;
       default:
         return null;
     }
@@ -48,14 +43,14 @@ export default function ({ navigation }) {
         {/* nav */}
         <View style={styles.nav}>
           <TouchableOpacity
-            style={getNavBtnStyle("login")}
-            onPress={() => setVisibleForm("login")}
+            style={getNavBtnStyle("Login")}
+            onPress={() => setVisibleForm("Login")}
           >
             <Text style={styles.navBtnText}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={getNavBtnStyle("signup")}
-            onPress={() => setVisibleForm("signup")}
+            style={getNavBtnStyle("Signup")}
+            onPress={() => setVisibleForm("Signup")}
           >
             <Text style={styles.navBtnText}>Signup</Text>
           </TouchableOpacity>

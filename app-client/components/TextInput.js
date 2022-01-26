@@ -1,4 +1,5 @@
 import { View, Text, TextInput as BaseInput, StyleSheet } from "react-native";
+import { colors } from "../theme";
 
 export function TextInput({
   label,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderBottomWidth: 1,
-    borderBottomColor: "green",
+    borderBottomColor: colors.green.light,
     fontSize: 15,
     paddingVertical: 5,
   },

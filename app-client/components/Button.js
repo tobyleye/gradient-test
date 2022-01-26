@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import { colors } from "../theme";
 
 export default function Button({
   text,
@@ -32,7 +33,7 @@ export default function Button({
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: "green",
+    backgroundColor: colors.green.light,
     color: "white",
     borderRadius: 4,
     height: 40,

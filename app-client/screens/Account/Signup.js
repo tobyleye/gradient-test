@@ -14,8 +14,8 @@ export default function SignupForm() {
   let { dispatch } = useAuth();
 
   async function handleSubmit() {
-    if (!email && !password) {
-      Alert.alert('Error', "email & password are required!");
+    if (!email || !password) {
+      Alert.alert("Oops!", "email & password are required!");
       return;
     }
     try {

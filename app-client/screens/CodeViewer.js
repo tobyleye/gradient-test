@@ -1,29 +1,27 @@
 import { useRef } from "react";
-import { TouchableOpacity, View, Text, StyleSheet, Share } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { formatAmount } from "../utils";
-
+import { captureRef } from "react-native-view-shot";
+import * as Sharing from "expo-sharing";
 
 export default function ({ route }) {
   let { id, amount, purpose } = route.params;
   const qrCodeRef = useRef(null);
+  const codeContainerRef = useRef(null);
 
-  function handleShare() {
-    // Todo: 
-    console.log('share!')
-    // qrCodeRef.current.toDataURL((dataURL) => {
-    //   console.log("qrcode url", dataURL);
-    //   let content = {
-    //     title: "React Native",
-    //     url: `data:image/png;base64,${dataURL}`,
-    //     message: `data:image/png;base64,${dataURL}`,
-    //   };
-    //   Share.open(content).catch((err) => {
-    //     console.log("error sharing:", err);
-    //   });
-    // });
+  async function handleShare() {
+    try {
+      let image = await captureRef(codeContainerRef.current, {
+        result: "tmpfile",
+        format: "png",
+        quality: 1,
+      });
+      await Sharing.shareAsync(image);
+    } catch (err) {
+      console.log("error sharing:", err);
+    }
   }
-
 
   return (
     <View style={styles.container}>
@@ -31,8 +29,8 @@ export default function ({ route }) {
         <Text style={styles.amount}>{formatAmount(amount)}</Text>
         <Text style={styles.purpose}>{purpose}</Text>
       </View>
-      <View style={styles.codeContainer}>
-        <View style={styles.wrapper}>
+      <View ref={codeContainerRef} style={styles.codeContainer}>
+        <View>
           <QRCode
             getRef={(ref) => {
               qrCodeRef.current = ref;
@@ -43,11 +41,10 @@ export default function ({ route }) {
             backgroundColor="white"
           />
         </View>
-
-        <TouchableOpacity style={styles.shareBtn} onPress={handleShare}>
-          <Text style={styles.shareBtnText}>Share</Text>
-        </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.shareBtn} onPress={handleShare}>
+        <Text style={styles.shareBtnText}>Share</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -55,19 +52,19 @@ export default function ({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'white'
   },
   detailsContainer: {
+    backgroundColor: "#f3f3f3",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f3f3f3",
     paddingHorizontal: 20,
     paddingVertical: 50,
   },
   codeContainer: {
     backgroundColor: "white",
-    paddingVertical: 20,
-    flex: 1,
-    paddingHorizontal: 20,
+    paddingVertical: 40,
+    alignItems: "center",
   },
   amount: {
     fontSize: 50,
@@ -77,15 +74,14 @@ const styles = StyleSheet.create({
   purpose: {
     fontSize: 14,
   },
-  wrapper: {
-    alignItems: "center",
-  },
   shareBtn: {
-    marginTop: 40,
+    marginTop: 10,
+    alignSelf:'center',
+    paddingHorizontal:8
   },
   shareBtnText: {
     textAlign: "center",
     textTransform: "uppercase",
-    fontWeight: "800",
+    fontWeight: "600"
   },
 });

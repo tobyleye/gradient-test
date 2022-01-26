@@ -1,4 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors } from "../../theme";
 
 export default function HomeButton({
   primaryText,
@@ -20,18 +21,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 10,
     paddingVertical: 20,
-    borderLeftWidth: 6,
-    borderLeftColor: "yellow",
-    borderTopRightRadius: 10,
+    borderLeftWidth: 10,
+    borderLeftColor: colors.yellow,
+    borderTopRightRadius: 12,
     marginBottom: 20,
     marginHorizontal: 16,
   },
   primaryText: {
-    marginBottom: 4,
-    fontSize: 14,
+    marginBottom: 2,
+    fontSize: 13,
+    color: '#6c757d'
   },
   secondaryText: {
-    color: "green",
+    color: colors.green.light,
     fontSize: 18,
     fontWeight: "600",
   },

@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import HomeButton from "./HomeButton";
 import PaymentsReceived from "./PaymentsReceived";
 import { useAuth } from "../../context/Auth";
+import { colors } from "../../theme";
 
 export default function Home({ navigation }) {
   const { dispatch, state } = useAuth();
@@ -45,7 +46,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "green",
+    backgroundColor: colors.green.deep,
     paddingTop: 20,
   },
   header: {
