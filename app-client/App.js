@@ -9,7 +9,7 @@ import { AuthContextProvider, useAuth } from "./context/Auth";
 
 const Stack = createNativeStackNavigator();
 
-function Index() {
+function Screens() {
   const { state } = useAuth();
 
   return (
@@ -35,7 +35,7 @@ function Index() {
 export default function App() {
   return (
     <AuthContextProvider>
-      <Index />
+      <Screens />
     </AuthContextProvider>
   );
 }
